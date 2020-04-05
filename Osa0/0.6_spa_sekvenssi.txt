@@ -1,0 +1,8 @@
+
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa. {content: "sfsdfsdf", date: "2020-04-05T07:05:28.067Z"}
+palvelin->selain: Statuscode 201. {"message":"note created"}
+
+note over selain:
+selain suorittaa tapahtumankäsittelijän
+joka renderöi muistiinpanot näytölle
+end note

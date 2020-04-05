@@ -1,0 +1,24 @@
+note over selain:
+Lomakkeen lähettäminen tapahtuu HTTP POST -pyyntönä ja osoitteeseen new_note form-tagiin määriteltyjen attribuuttien action ja method ansiosta:
+end note
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
+palvelin->selain: Statuscode 302. Uudelleenohjauspyyntö tehdä HTTP GET pyyntö kohteeseen /notes
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+palvelin->selain: HTML-koodi
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+palvelin->selain: main.css
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+palvelin->selain: main.js
+
+note over selain: 
+selain alkaa suorittamaan js-koodia
+joka pyytää JSON-datan palvelimelta
+end note
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+palvelin->selain: JSON-muotoinen data, esim. [{ content: "HTML on helppoa", date: "2019-01-01" }, ...]
+
+
+note over selain:
+selain suorittaa tapahtumankäsittelijän
+joka renderöi muistiinpanot näytölle
+end note
