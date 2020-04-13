@@ -1,7 +1,22 @@
 import React from 'react'
+import personsService from '../services/persons'
 
-const ShowPeople = ({ persons, filter }) => {
-    let filteredList = persons.filter(i => i.name.toLowerCase().includes(filter.toLowerCase()))
+const ShowPeople = ({ persons, filter, setPersons, render }) => {
+    const filteredList = persons.filter(i => i.name.toLowerCase().includes(filter.toLowerCase()))
+
+    const deletePerson = (person) => {
+        const confirmation = window.confirm(`Haluakko nää ihan oikeasti poistaa tän immeisen ${person.name}?`);
+        if (confirmation) {
+            personsService.remove(person.id).then(response => {
+                personsService
+                    .getAll()
+                    .then(allPersons => {
+                        setPersons(allPersons)
+                    })
+                    .then(when => console.log("Fetch all persons after removing one from DB", persons))
+            })
+        }
+    }
     return (
         <div>
             {
@@ -11,9 +26,10 @@ const ShowPeople = ({ persons, filter }) => {
             }
             {
                 filteredList.map((person, i) => {
-                    return <h3 key={i}>{person.name} {person.number}</h3>
+                    return <h3 key={i}>{person.name} {person.number} <button onClick={() => deletePerson(person)}>Poistappa tää</button></h3>
                 })
             }
+            {render}
         </div>
     )
 }
