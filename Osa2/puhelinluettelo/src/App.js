@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from './components/header'
 import Filtering from './components/filtering'
 import PeopleForm from './components/peopleform'
 import ShowPeople from './components/showpeople'
-
+import axios from 'axios'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -19,6 +19,17 @@ const App = () => {
     setNewName(event.target.value)
     setTyped(true)
   }
+
+  const hook = () => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }
+  useEffect(hook, [])
 
   const submitHandler = (event) => {
     event.preventDefault()
