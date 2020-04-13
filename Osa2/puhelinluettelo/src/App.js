@@ -4,6 +4,7 @@ import Filtering from './components/filtering'
 import PeopleForm from './components/peopleform'
 import ShowPeople from './components/showpeople'
 import axios from 'axios'
+import personsService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -20,26 +21,31 @@ const App = () => {
     setTyped(true)
   }
 
-  const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
+  useEffect(() => {
+    personsService
+      .getAll()
+      .then(initialNotes => {
+        setPersons(initialNotes)
       })
-  }
-  useEffect(hook, [])
+  }, [])
+
 
   const submitHandler = (event) => {
     event.preventDefault()
-    let newObject = { name: newName, number: newNumber }
+    let newObject = {
+      name: newName,
+      number: newNumber
+    }
+
     let test = persons.every(person => person.name.toLowerCase() !== newName.toLowerCase())
     if (test) {
       setPersons(persons.concat(newObject))
       setNewName('')
       setNewNumber('')
       setMessage('')
+
+      personsService.create(newObject)
+
     } else {
       alert(`${newName} is already added to phonebook`)
       setMessage(`${newName} exists already!`)
