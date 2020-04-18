@@ -66,17 +66,17 @@ const App = () => {
       } else {
         const confirmation = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`);
         if (confirmation) {
-          // Fetch requested person's ID. Then update with ID info and later again fetch all updated persons to show
+          // Fetch requested person's ID. Then update server with ID info and update front end view
           personsService.getAll().then(response => {
             const id = response.filter(p => p.name === newName)[0].id
-            personsService.update(id, newObject).then(
-              personsService.getAll()
-                .then(ap => setPersons(ap))
-                .then(setMessage(`Changed ${newName}'s phonenumber to ${newNumber}`),
-                  setTimeout(() => {
-                    setMessage(null)
-                  }, 5000)
-                )
+            personsService.update(id, newObject).then(updatedObject => {
+              let updatedPersons = persons.filter(p => p.name !== newName).concat(updatedObject)
+              setPersons(updatedPersons)
+            }
+            ).then(setMessage(`Changed ${newName}'s phonenumber to ${newNumber}`),
+              setTimeout(() => {
+                setMessage(null)
+              }, 5000)
             )
           }).catch(error => {
             setErrorMessage(
