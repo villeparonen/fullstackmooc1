@@ -3,14 +3,17 @@ import Header from './components/header'
 import Filtering from './components/filtering'
 import PeopleForm from './components/peopleform'
 import ShowPeople from './components/showpeople'
+import Notification from './components/notification'
 import personsService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
-  const [newName, setNewName] = useState('Rustaappa nimi...')
+  const [newName, setNewName] = useState('Write name...')
   const [typed, setTyped] = useState(false)
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [message, setMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const valueHandlerNumber = (event) => setNewNumber(event.target.value)
   const valueHandlerFilter = (event) => setFilter(event.target.value)
@@ -40,7 +43,20 @@ const App = () => {
       personsService.create(newObject).then(personsService
         .getAll()
         .then(allPersons => setPersons(allPersons))
-      )
+        .then(
+          setMessage(`Added ${newName}, ${newNumber}`),
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+        )
+      ).catch(error => {
+        setErrorMessage(
+          `Error happened when tried to add new person and number!`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
 
     } else {
 
@@ -56,7 +72,19 @@ const App = () => {
             personsService.update(id, newObject).then(
               personsService.getAll()
                 .then(ap => setPersons(ap))
+                .then(setMessage(`Changed ${newName}'s phonenumber to ${newNumber}`),
+                  setTimeout(() => {
+                    setMessage(null)
+                  }, 5000)
+                )
             )
+          }).catch(error => {
+            setErrorMessage(
+              `Error happened when tried to change phonenumber of existing person!`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
           })
         }
       }
@@ -66,10 +94,11 @@ const App = () => {
 
   return (
     <div>
-      <Header text="Väen puhelinnumerot" />
-      <Filtering valueHandlerFilter={valueHandlerFilter} filter={filter} />
-      <PeopleForm submitHandler={submitHandler} valueHandlerName={valueHandlerName} newName={newName} valueHandlerNumber={valueHandlerNumber} newNumber={newNumber} setNewName={setNewName} typed={typed} />
-      <ShowPeople persons={persons} setPersons={setPersons} filter={filter} />
+      <Header text="Phonebook" />
+      <Notification message={message} errorMessage={errorMessage} />
+      <Filtering valueHandlerFilter={valueHandlerFilter} filter={filter} text={"Filter shown with"} />
+      <PeopleForm submitHandler={submitHandler} valueHandlerName={valueHandlerName} newName={newName} valueHandlerNumber={valueHandlerNumber} newNumber={newNumber} setNewName={setNewName} typed={typed} text={"Add a new"} />
+      <ShowPeople persons={persons} setPersons={setPersons} filter={filter} text={"People and their numbers"} setMessage={setMessage} />
     </div>
   )
 
