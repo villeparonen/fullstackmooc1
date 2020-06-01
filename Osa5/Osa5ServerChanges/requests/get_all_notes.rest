@@ -1,0 +1,64 @@
+
+
+# DELETE http://localhost:3003/api/blogs/5ead7ddd051c4a6548e747b8 HTTP/1.1
+# Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlZpbGxlUCIsImlkIjoiNWVhZDQ2MTVhNGFkYWU3NmQwYjFiM2NmIiwiaWF0IjoxNTg4NDc5NjIxfQ.7q_BauUSK2hjDANf75C6OmcNQhaBI5T28FCk4AeXoYs
+
+
+# {
+#     "title": "Has4su 5juttudfgdfg",
+#     "author": "Kirja34dfg5ilija",
+#     "url": "www.li345nkki.fi",
+#     "likes": 25,
+#     "userId": "5ead4615a4adae76d0b1b3cf"
+# }
+
+# CREATE new user
+# POST http://localhost:3003/api/users/ HTTP/1.1
+# content-type: application/json
+
+# {
+#     "username": "testikäyttäjä",
+#     "name": "Ville Paronen",
+#     "password": "salasana"
+# }
+
+
+# GET http://localhost:3003/api/blogs/ HTTP/1.1
+# content-type: application/json
+
+
+# {
+#     "title": "Hassu juttu",
+#     "author": "Kirjailija",
+#     "url": "www.linkki.fi",
+#     "likes": 5,
+#     "userId": "5ead4615a4adae76d0b1b3cf"
+# }
+
+# GET http://localhost:3001/api/persons
+
+
+# LOGIN
+POST http://localhost:3003/api/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "VilleP",
+    "password": "salasana"
+}
+
+// bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlZpbGxlUCIsImlkIjoiNWVhZDQ2MTVhNGFkYWU3NmQwYjFiM2NmIiwiaWF0IjoxNTg4NDI4MTI0fQ.nhI7_IhtAG2FkwR9gXmKepH9Ge1M8DmMsVJk6FvUw6I
+
+// POST WITH TOKEN
+
+# POST http://localhost:3003/api/blogs HTTP/1.1
+# Content-Type: application/json
+# Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlZpbGxlUCIsImlkIjoiNWVhZDQ2MTVhNGFkYWU3NmQwYjFiM2NmIiwiaWF0IjoxNTg4NDg0NTc1fQ.4q6gl64RP9jJBL7FYSj219iFvGnS1My5mavwmpNFBBI
+
+# {
+#     "title": "Has4su kamalaa",
+#     "author": "Kirja34dfg5ilija",
+#     "url": "www.li345nkki.fi",
+#     "likes": 25,
+#     "userId": "5ead4615a4adae76d0b1b3cf"
+# }
